@@ -1,5 +1,6 @@
 package com.cinchapi.demo.commerce.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +12,11 @@ import com.cinchapi.concourse.Concourse;
 @ComponentScan(basePackages = { "com.cinchapi.demo.commerce" })
 public class DemoCommerceApplication {
 
-	private static final String SERVER_HOST = "localhost";
+	@Value("${concourse.host}")
+	private String concourseServerHost;
 
-	private static final int SERVER_PORT = 1717;
+	@Value("${concourse.port}")
+	private int concourseServerPort;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoCommerceApplication.class, args);
@@ -22,7 +25,7 @@ public class DemoCommerceApplication {
 	@Bean
 	public Concourse getConcourseClient() {
 
-		Concourse client = Concourse.connect(SERVER_HOST, SERVER_PORT, "admin", "admin");
+		Concourse client = Concourse.connect(concourseServerHost, concourseServerPort, "admin", "admin");
 
 		// Concourse client = new Concourse();
 		return client;
